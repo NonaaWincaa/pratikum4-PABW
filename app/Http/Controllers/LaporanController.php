@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Laporan;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    // Menampilkan halaman form input laporan
-    public function form()
+    public function index()
     {
-        return view('laporbanjir.form');
+        $laporan = Laporan::all();
+        return view('laporan.index', compact('laporan'));
     }
 
-    // Menyimpan data dari form ke database
-    public function simpan(Request $request)
+    public function create()
     {
-        // Validasi input sederhana
+        return view('laporan.create');
+    }
+
+    public function store(Request $request)
+    {
         $request->validate([
-            'nama_pelapor' => 'required|string|max:255',
-            'lokasi' => 'required|string|max:255',
-            'tinggi_genangan' => 'required|integer',
+            'nama_pelapor' => 'required|string',
+            'lokasi' => 'required|string',
+            'tinggi_genangan' => 'required|numeric',
             'tanggal_kejadian' => 'required|date',
         ]);
 
-        // Simpan ke database menggunakan Model Laporan
         Laporan::create([
             'nama_pelapor' => $request->nama_pelapor,
             'lokasi' => $request->lokasi,
@@ -32,13 +34,6 @@ class LaporanController extends Controller
             'tanggal_kejadian' => $request->tanggal_kejadian,
         ]);
 
-        return redirect('/daftar-laporan')->with('success', 'Data laporan berhasil disimpan!');
-    }
-
-    // Menampilkan daftar laporan dari database
-    public function daftar()
-    {
-        $laporans = Laporan::all();
-        return view('laporbanjir.daftar', compact('laporans'));
+        return redirect()->back()->with('success', 'Laporan berhasil dikirim dan tersimpan di sistem!');
     }
 }

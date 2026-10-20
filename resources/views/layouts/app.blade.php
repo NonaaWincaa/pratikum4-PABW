@@ -2,42 +2,57 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title') - LaporBanjir</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f8f9fa; }
-        header { background-color: #007bff; color: white; padding: 15px; text-align: center; border-radius: 5px; }
-        nav { margin-top: 10px; }
-        nav a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
-        nav a:hover { text-decoration: underline; }
-        main { background: white; padding: 20px; border-radius: 5px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        footer { text-align: center; margin-top: 20px; font-size: 14px; color: #6c757d; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .btn { background: #28a745; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
-        .btn:hover { background: #218838; }
-        .card { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px; }
-        .status { font-weight: bold; padding: 3px 8px; color: white; border-radius: 3px; display: inline-block; }
-        .status-waspada { background-color: #ffc107; color: #212529; }
-        .status-siaga { background-color: #fd7e14; }
-        .status-awas { background-color: #dc3545; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPBD LaporBanjir</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        softBluePrimary: '#4A90E2',
+                        softBlueHeader: '#1E3A8A',
+                        softBlueBg: '#F0F7FF',
+                        softBlueBadge: '#E0F2FE',
+                        softBlueText: '#0369A1',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <header>
-        <h1>Sistem Pelaporan LaporBanjir BPBD Kabupaten Bandung</h1>
-        <nav>
-            <a href="{{ route('lapor.create') }}">Form Pelaporan</a> |
-            <a href="{{ route('lapor.index') }}">Daftar Laporan</a>
-        </nav>
+<body class="bg-softBlueBg font-sans text-slate-800 antialiased min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Header / Navbar Soft Blue -->
+    <header class="bg-softBlueHeader text-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="{{ route('laporbanjir.form') }}" class="flex items-center gap-2 font-bold text-sm tracking-wide">
+                <i class="fa-solid fa-triangle-exclamation text-sky-300 text-lg"></i>
+                <span>BPBD LaporBanjir</span>
+            </a>
+            <nav class="flex gap-2 text-xs font-medium">
+                <a href="{{ route('laporbanjir.form') }}" class="px-3 py-1.5 rounded-md hover:bg-sky-800 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-pen-to-square text-sky-300"></i> Buat Laporan
+                </a>
+                <a href="{{ route('laporbanjir.index') }}" class="px-3 py-1.5 rounded-md hover:bg-sky-800 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-list-check text-sky-300"></i> Daftar Laporan
+                </a>
+            </nav>
+        </div>
     </header>
 
-    <main>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
         @yield('content')
     </main>
 
-    <footer>
-        <p>&copy; 2026 Aplikasi LaporBanjir - Wincarlinn</p>
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-3 text-center text-xs border-t border-slate-800">
+        <p>&copy; {{ date('Y') }} BPBD Kabupaten Bandung. wincarlinn.</p>
     </footer>
+
 </body>
 </html>

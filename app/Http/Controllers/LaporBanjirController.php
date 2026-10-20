@@ -2,41 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Laporan;
 use Illuminate\Http\Request;
 
 class LaporBanjirController extends Controller
 {
-    public function create()
+    // Form Input Laporan
+    public function form()
     {
-        return view('lapor.create');
+        return view('lapor.form');
     }
 
-    public function store(Request $request)
+    // Simpan Data Laporan ke Database
+    public function simpan(Request $request)
     {
-        $data = $request->only(['nama_pelapor', 'lokasi', 'tinggi_air']);
-        return view('lapor.konfirmasi', compact('data'));
+        $request->validate([
+            'nama_pelapor' => 'required|string|max:255',
+            'lokasi' => 'required|string|max:255',
+            'tinggi_genangan' => 'required|numeric|min:1',
+            'tanggal_kejadian' => 'required|date',
+        ]);
+
+        Laporan::create([
+            'nama_pelapor' => $request->nama_pelapor,
+            'lokasi' => $request->lokasi,
+            'tinggi_genangan' => $request->tinggi_genangan,
+            'tanggal_kejadian' => $request->tanggal_kejadian,
+        ]);
+
+        return redirect()->route('laporbanjir.index')->with('success', 'Laporan berhasil ditambahkan!');
     }
 
-    public function index()
+    // Tampilkan Daftar Laporan
+    public function daftar()
     {
-        $laporan = [
-            [
-                'nama_pelapor' => 'richi',
-                'lokasi' => 'Dayeuhkolot',
-                'tinggi_air' => 25,
-            ],
-            [
-                'nama_pelapor' => 'Siti',
-                'lokasi' => 'Baleendah',
-                'tinggi_air' => 50,
-            ],
-            [
-                'nama_pelapor' => 'Ahmad',
-                'lokasi' => 'Bojongsoang',
-                'tinggi_air' => 85,
-            ],
-        ];
-
-        return view('lapor.index', compact('laporan'));
+        $laporanList = Laporan::orderBy('created_at', 'desc')->get();
+        return view('lapor.index', compact('laporanList'));
     }
 }

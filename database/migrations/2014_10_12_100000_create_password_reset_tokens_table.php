@@ -9,17 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
- public function up(): void
-{
-    Schema::create('laporan', function (Blueprint $table) {
-        $table->id();
-        $table->string('nama_pelapor');
-        $table->string('lokasi');
-        $table->integer('tinggi_genangan');
-        $table->date('tanggal_kejadian');
-        $table->timestamps();
-    });
-}
+    public function up(): void
+    {
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+    }
 
     /**
      * Reverse the migrations.
